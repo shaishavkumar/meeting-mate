@@ -37,6 +37,7 @@ export class BookingPageComponent implements OnInit, OnChanges {
     },{
       validators: [this.validateTimeRange('startTime', 'endTime')]
     })
+    this.availableMeetingRoom = [];
     this.meetingRoomData = this.commonService.MeetingRoomData;
   }
 
