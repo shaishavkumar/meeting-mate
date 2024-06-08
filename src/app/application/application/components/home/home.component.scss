@@ -1,0 +1,62 @@
+.home-page{
+  padding: 10px 70px;
+}
+
+.home-page_header{
+    text-align: center;
+}
+
+.home-page_my-bookings{
+    margin-top: 10px;
+}
+
+.home-page_data-division{
+    height: calc(100vh - 620px);
+    overflow: auto;
+}
+
+h4 {
+    margin: 0;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+th, td {
+    border: none; 
+    padding: 8px;
+    text-align: left;
+}
+th {
+    background-color: #f2f2f2;
+    border-radius: 4px;
+}
+
+.fixed-header {
+    position: sticky;
+    top: 0;
+    background: white; 
+    z-index: 1; 
+    padding-top: 10px; 
+  }
+
+  select{
+    width: 20%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    margin-bottom: 10px;
+  }
+
+  .home-page_btn-section{
+    display: flex;
+    justify-content: end;
+    align-items: center;
+  }
+
+  .delete-btn{
+    cursor: pointer;
+    font-size: small;
+    color: red;
+  }

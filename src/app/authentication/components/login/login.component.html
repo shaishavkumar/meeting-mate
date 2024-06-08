@@ -1,0 +1,15 @@
+<div class="login-container">
+    <h2 class="title-header">Login</h2>
+    <form (ngSubmit)="login()">
+      <div class="input-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" required [(ngModel)]="username">
+      </div>
+      <div class="input-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required [(ngModel)]="password">
+      </div>
+      <button class="primary-btn w-100" [ngClass]="{'disable': !username || !password}" type="submit" [disabled]="!username || !password">Login</button>
+    </form>
+  </div>
+  

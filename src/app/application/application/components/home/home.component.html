@@ -1,0 +1,62 @@
+<div class="home-page">
+    <h1 class="home-page_header">Welcome {{username}} !</h1>
+    <div class="home-page_btn-section">
+        <button class="primary-btn btn-position" (click)="openBooking()">Book Meeting</button>
+    </div>
+    <div class="card home-page_my-bookings">
+        <h4>Your Upcoming Mettings</h4>
+        <hr>
+        <div class="home-page_data-division">
+            <p class="text-center" *ngIf="!currentUserMeetings.length">No Meeting Scheduled !</p>
+            <table *ngIf="currentUserMeetings.length">
+                <tr class="fixed-header">
+                  <th>Sr No</th>
+                  <th>User Name</th>
+                  <th>Date</th>
+                  <th>Time</th>
+                  <th>Agenda</th>
+                  <th>Room</th>
+                  <th></th>
+                </tr>
+                <tr *ngFor="let data of currentUserMeetings;let i = index">
+                    <td>{{i+1}}</td>
+                    <td>{{data.user_name}}</td>
+                    <td>{{data.booking_date}}</td>
+                    <td>{{data.start_time}} - {{data.end_time}}</td>
+                    <td>{{data.agenda}}</td>
+                    <td>{{data.room_name}}</td>
+                    <td class="delete-btn" (click)="deleteMeetingById(data.id)">Delete</td>
+                </tr>
+              </table>
+        </div>
+    </div>
+    <div class="card home-page_my-bookings">
+        <h4>Meeting Room Details</h4>
+        <hr>
+        <select [(ngModel)]="selectedRoom" (change)="getRoomDetails()">
+            <option *ngFor="let room of allMeetingRoomList" [value]="room">{{room}}</option>
+        </select>
+        <div class="home-page_data-division">
+            <p class="text-center" *ngIf="!allMeetingRoomDetails.length">No Meeting Scheduled For Selected Room !</p>
+            <table *ngIf="allMeetingRoomDetails.length">
+                <tr class="fixed-header">
+                  <th>Sr No</th>
+                  <th>User Name</th>
+                  <th>Date</th>
+                  <th>Time</th>
+                  <th>Agenda</th>
+                  <th>Room</th>
+                </tr>
+                <tr *ngFor="let data of allMeetingRoomDetails;let i = index">
+                    <td>{{i+1}}</td>
+                    <td>{{data.user_name}}</td>
+                    <td>{{data.booking_date}}</td>
+                    <td>{{data.start_time}} - {{data.end_time}}</td>
+                    <td>{{data.agenda}}</td>
+                    <td>{{data.room_name}}</td>
+                </tr>
+              </table>
+        </div>
+    </div>
+</div>
+<app-booking-page [show]="openBookingPopup" (closePopup)="popupClosed()" (refreshData)="refreshData()"></app-booking-page>

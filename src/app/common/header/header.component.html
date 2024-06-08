@@ -1,0 +1,10 @@
+<header>
+    <h3>Meeting Mate</h3>
+    <nav>
+      <ul *ngIf="username">
+        <span>{{username}}</span>&nbsp;&nbsp;&nbsp;
+        <li (click)="logout()"><a>Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+  

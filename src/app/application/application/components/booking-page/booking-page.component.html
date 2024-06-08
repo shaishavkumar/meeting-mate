@@ -1,0 +1,49 @@
+<div *ngIf="show" class="overlay"></div>
+<div *ngIf="show" class="root">
+   <div class="header-section">
+    <div><h4>Book Meeting</h4></div>
+   </div>
+   <div class="form-section">
+      <form [formGroup]="bookingForm">
+         <div class="input-group">
+            <label for="username" class="required-field">User Name</label>
+            <input readonly type="text" formControlName="userName" id="userName">
+         </div>
+         <div class="date-time-group">
+            <div class="input-group">
+               <label for="bookingDate" class="required-field">Meeting Date</label>
+               <input (change)="checkRoomAvailability()" type="date" formControlName="bookingDate" id="bookingDate" [min]="currentDate">
+            </div>
+            <div class="input-group">
+               <label for="startTime" class="required-field">Start Time</label>
+               <input (change)="checkRoomAvailability()" type="time" formControlName="startTime" id="startTime">
+            </div>
+            <div class="input-group">
+               <label for="endTime" class="required-field">End Time</label>
+               <input (change)="checkRoomAvailability()" type="time" formControlName="endTime" id="endTime">
+            </div>
+         </div>
+         <small *ngIf="bookingForm.get('bookingDate').hasError('weekend') && bookingForm.get('bookingDate').dirty" class="error-message">
+            **Rooms are not available on weekends.
+          </small>
+         <small *ngIf="bookingForm.get('startTime').hasError('gap') && bookingForm.get('endTime').dirty" class="error-message">
+            **Gap between start and end time should be at least 30 minutes.
+          </small>
+          <small *ngIf="bookingForm.get('endTime').hasError('greater') && bookingForm.get('endTime').dirty" class="error-message">
+            **End time should be greater than start time.
+          </small>
+         <div class="input-group" style="margin-top: 10px;">
+            <label for="meetingRoom" class="required-field">Meeting Room <span class="sub-text"> (Available)</span></label>
+            <select formControlName="meetingRoom" id="meetingRoom">
+               <option *ngFor="let room of availableMeetingRoom">{{room}}</option>
+            </select>
+         </div>
+         <div class="input-group">
+            <label for="agenda" class="required-field">Agenda</label>
+            <textarea formControlName="agenda" id="agenda"></textarea>
+         </div>
+      </form>
+   </div>
+   <button class="primary-btn right" [ngClass]="{'disable': !bookingForm.valid}" type="submit" [disabled]="!bookingForm.valid" (click)="bookMeeting()">Book Meeting</button>
+   <button class="secondary-btn right close-btn" (click)="close()">Close</button>
+</div>
