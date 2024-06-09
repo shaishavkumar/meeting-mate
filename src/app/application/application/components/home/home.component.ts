@@ -123,12 +123,9 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.commonSerive.loginStatusCheck.next(true);
     this.meetingRoomData = this.commonSerive.MeetingRoomData;
-    let userMeetings = this.getUserRoomDetails(this.username);
-    this.currentUserMeetings = this.transformDataToView(userMeetings);
     this.allMeetingRoomList = this.getAllMeetingRoom();
     this.selectedRoom = this.allMeetingRoomList[0];
-    this.allMeetingRoomDetails = this.getBookingDetails(this.selectedRoom);
-
+    this.refreshData();
   }
 
   openBooking() {
@@ -142,6 +139,9 @@ export class HomeComponent implements OnInit {
   refreshData() {
     let userMeetings = this.getUserRoomDetails(this.username);
     this.currentUserMeetings = this.transformDataToView(userMeetings);
+    this.currentUserMeetings = this.filterUpcomingMeetings(this.currentUserMeetings);
+    this.allMeetingRoomDetails = this.getBookingDetails(this.selectedRoom);
+    this.allMeetingRoomDetails = this.filterUpcomingMeetings(this.allMeetingRoomDetails);
   }
 
   getUserRoomDetails(userName: string): { room_name: string; booking_details: BookingDetail }[] {
@@ -187,6 +187,7 @@ export class HomeComponent implements OnInit {
 
   getRoomDetails() {
     this.allMeetingRoomDetails = this.getBookingDetails(this.selectedRoom);
+    this.allMeetingRoomDetails = this.filterUpcomingMeetings(this.allMeetingRoomDetails);
   }
 
   getBookingDetails(roomName: string) {
@@ -212,12 +213,21 @@ export class HomeComponent implements OnInit {
       const index = room.booking_details.findIndex(booking => booking.id === id);
       if (index !== -1) {
         room.booking_details.splice(index, 1);
-        let userMeetings = this.getUserRoomDetails(this.username);
-        this.currentUserMeetings = this.transformDataToView(userMeetings);
+        this.refreshData();
         return;
       }
     }
     alert(`Meeting with ID ${id} not found.`);
+  }
+
+  filterUpcomingMeetings(input: OutputMeetingRoomDetails[]){
+    const currentTime = new Date();
+    let upcomingMeetings = [];
+    upcomingMeetings = input.filter(meeting => {
+      const meetingDateTime = new Date(`${meeting.booking_date}T${meeting.start_time}`);
+      return meetingDateTime >= currentTime;
+    });
+    return upcomingMeetings;
   }
 
 }
